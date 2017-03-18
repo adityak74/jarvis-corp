@@ -16,6 +16,9 @@ print 'Got connections from', addr
 recv_chat= c.recv(8192)
 user_name =  recv_chat
 c.send( "Hello "+recv_chat+" I am here to help you with file browsing")
+
+# Add case for windows, platform.system() for Windows returns 'Windows' as string
+
 if platform.system() == "Linux":
 	current_path = "/home/"+ getpass.getuser() +"/Desktop/"
 elif platform.system() == "Darwin":
