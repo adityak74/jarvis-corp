@@ -32,6 +32,7 @@ while True:
 		print fily
 	send_chat =  raw_input("Type the folder/file name you want:")
 	if send_chat == "bye Alexa":
+		s.send(send_chat)
 		s.close() 
 		break 
 	s.send(send_chat)

@@ -1,6 +1,7 @@
 from flask import render_template, Blueprint, request
 from app.forms import *
 import os
+import platform
 import getpass
 
 blueprint = Blueprint('pages', __name__)
@@ -11,10 +12,16 @@ blueprint = Blueprint('pages', __name__)
 ################
 
 @blueprint.route('/all_dirs')
-def get_all_dirs():
-	desktop_path = '/home/'+ getpass.getuser() +'/Desktop'
-	dirs = [d for d in os.listdir(desktop_path) if os.path.isdir(os.path.join(desktop_path, d))]
-	return render_template('pages/all_dirs.html', all_dirs = dirs, desktop_path = desktop_path)
+def get_all_dirs(): 
+    if platform.system() == "Linux":
+        desktop_path = "/home/"+ getpass.getuser() +"/Desktop/"
+    elif platform.system() == "Darwin":
+        desktop_path = "/Users/"+ getpass.getuser() +"/Desktop/"
+    elif platform.system() == "Windows":
+        pass
+    print desktop_path
+    dirs = [d for d in os.listdir(desktop_path) if os.path.isdir(os.path.join(desktop_path, d))]
+    return render_template('pages/all_dirs.html', all_dirs = dirs, desktop_path = desktop_path)
 
 @blueprint.route('/')
 def home():
