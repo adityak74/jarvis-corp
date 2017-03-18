@@ -1,5 +1,7 @@
 from flask import render_template, Blueprint, request
 from app.forms import *
+import os
+import getpass
 
 blueprint = Blueprint('pages', __name__)
 
@@ -8,6 +10,11 @@ blueprint = Blueprint('pages', __name__)
 #### routes ####
 ################
 
+@blueprint.route('/all_dirs')
+def get_all_dirs():
+	desktop_path = '/home/'+ getpass.getuser() +'/Desktop'
+	dirs = [d for d in os.listdir(desktop_path) if os.path.isdir(os.path.join(desktop_path, d))]
+	return render_template('pages/all_dirs.html', all_dirs = dirs, desktop_path = desktop_path)
 
 @blueprint.route('/')
 def home():
