@@ -13,7 +13,7 @@ c, addr = s.accept()
 print 'Got connections from', addr
 recv_chat= c.recv(8192)
 user_name =  recv_chat
-c.send( "hello "+recv_chat+" I am here to help you with file browsing")
+c.send( "Hello "+recv_chat+" I am here to help you with file browsing")
 current_path = "/home/prabhat/Downloads"
 
 
@@ -38,7 +38,7 @@ def go_back():
 def create_folder(recv_chat):
 	global current_path
 	if not isdir(join(current_path,recv_chat)):
-		os.system('mkdir '+recv_chat)
+		os.system('mkdir '+join(current_path,recv_chat))
 		current_path  =  current_path
 	else:
 		c.send("Hey "+user_name+ " darling there is folder already by that name please choose a different name")
@@ -47,11 +47,19 @@ def create_folder(recv_chat):
 def delete_folder(recv_chat):
 	global current_path
 	if isdir(join(current_path,recv_chat)):
-		os.system('rm -rf '+recv_chat )
+		os.system('rm -rf '+join(current_path,recv_chat))
 	else:
 		c.send("Hey "+user_name+ " darling there is no folder by that name please")
 	return
 
+def rename_folder(recv_chat):
+	global current_path
+	names =  recv_chat.split(' ')
+	old_name = join(current_path,names[0])
+	new_name =  join(current_path,names[1])
+	print old_name,new_name 
+	os.system('mv '+old_name+' '+new_name)
+	return
 
 while True:
 	send_chat=''
@@ -79,7 +87,10 @@ while True:
 	if "delete folder" in recv_chat:
 		recv_chat = recv_chat[14:]
 		delete_folder(recv_chat)
-	elif recv_chat == "bye alexa":
+	if "rename folder" in recv_chat:
+		recv_chat = recv_chat[14:]
+		rename_folder(recv_chat)
+	elif recv_chat == "bye Alexa":
 		c.close()
 		break
 

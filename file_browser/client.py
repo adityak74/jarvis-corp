@@ -18,7 +18,7 @@ while True:
 			# send_chat = ''
 			while 1:
 				send_chat =  raw_input("Create a new folder or go back:")
-				print "this is what you entered", send_chat
+				print "This is what you entered", send_chat
 				if send_chat == "go back" or  "create" in send_chat:
 					print "You entered correct command"
 					s.send(send_chat)
