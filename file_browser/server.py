@@ -1,7 +1,9 @@
 import socket
+import platform
 from os import listdir
 from os.path import isfile, join,isdir
 import os
+import getpass
 s = socket.socket()
 s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 
@@ -14,7 +16,10 @@ print 'Got connections from', addr
 recv_chat= c.recv(8192)
 user_name =  recv_chat
 c.send( "Hello "+recv_chat+" I am here to help you with file browsing")
-current_path = "/home/prabhat/Downloads"
+if platform.system() == "Linux":
+	current_path = "/home/"+ getpass.getuser() +"/Desktop/"
+elif platform.system() == "Darwin":
+	current_path = "/Users/"+ getpass.getuser() +"/Desktop/"
 
 
 def open_folder(recv_chat):
@@ -22,7 +27,10 @@ def open_folder(recv_chat):
 	if isdir(join(current_path,recv_chat)):
 		current_path =  join(current_path, recv_chat)
 	elif isfile(join(current_path,recv_chat)):
-		os.system('xdg-open ' + join(current_path,recv_chat))
+		if platform.system() == "Linux":
+			os.system('xdg-open ' + join(current_path,recv_chat))
+		elif platform.system() == "Darwin":
+			os.system('open ' + join(current_path,recv_chat))
 	print "The current path ", current_path
 	return
 
