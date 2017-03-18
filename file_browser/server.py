@@ -23,6 +23,9 @@ if platform.system() == "Linux":
 	current_path = "/home/"+ getpass.getuser() +"/Desktop/"
 elif platform.system() == "Darwin":
 	current_path = "/Users/"+ getpass.getuser() +"/Desktop/"
+elif platform.system() == "Windows":
+	pass
+	#add folder path structure here for windows
 
 
 def open_folder(recv_chat):
@@ -34,6 +37,9 @@ def open_folder(recv_chat):
 			os.system('xdg-open ' + join(current_path,recv_chat))
 		elif platform.system() == "Darwin":
 			os.system('open ' + join(current_path,recv_chat))
+		elif platform.system() == "Windows":
+			pass
+			#add folder open code for current_path for Windows
 	print "The current path ", current_path
 	return
 
