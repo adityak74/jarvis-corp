@@ -4,6 +4,9 @@ from os import listdir
 from os.path import isfile, join,isdir
 import os
 import getpass
+from pydrive.auth import GoogleAuth
+from pydrive.drive import GoogleDrive
+
 s = socket.socket()
 s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 
@@ -20,9 +23,9 @@ c.send( "Hello "+recv_chat+" I am here to help you with file browsing")
 # Add case for windows, platform.system() for Windows returns 'Windows' as string
 
 if platform.system() == "Linux":
-	current_path = "/home/"+ getpass.getuser() +"/Desktop/"
+	current_path = "/home/"+ getpass.getuser() +"/Downloads/"
 elif platform.system() == "Darwin":
-	current_path = "/Users/"+ getpass.getuser() +"/Desktop/"
+	current_path = "/Users/"+ getpass.getuser() +"/Downloads/"
 elif platform.system() == "Windows":
 	pass
 	#add folder path structure here for windows
@@ -42,6 +45,27 @@ def open_folder(recv_chat):
 			#add folder open code for current_path for Windows
 	print "The current path ", current_path
 	return
+
+def upload_drive(recv_chat):
+	global current_path
+	gauth = GoogleAuth()
+	gauth.LoadCredentialsFile("credentials.txt")
+	if gauth.credentials is None:
+	    # Authenticate if they're not there
+	    gauth.LocalWebserverAuth()
+	elif gauth.access_token_expired:
+	    # Refresh them if expired
+	    gauth.Refresh()
+	else:
+	    # Initialize the saved creds
+	    gauth.Authorize()
+	# Save the current credentials to a file
+	gauth.SaveCredentialsFile("credentials.txt")
+
+	drive = GoogleDrive(gauth)
+	file = drive.CreateFile()
+	file.SetContentFile(join(current_path,recv_chat))
+	file.Upload()
 
 def go_back():
 	global current_path
@@ -107,6 +131,9 @@ while True:
 	if "rename folder" in recv_chat:
 		recv_chat = recv_chat[14:]
 		rename_folder(recv_chat)
+	if "google drive" in recv_chat:
+		recv_chat = recv_chat[13:]
+		upload_drive(recv_chat)
 	elif recv_chat == "bye Alexa":
 		c.close()
 		break

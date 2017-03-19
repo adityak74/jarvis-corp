@@ -30,7 +30,7 @@ while True:
 	all_files= recv_chat.split('$')
 	for fily in all_files:
 		print fily
-	send_chat =  raw_input("Type the folder/file name you want:")
+	send_chat =  raw_input("Type your command here:")
 	if send_chat == "bye Alexa":
 		s.send(send_chat)
 		s.close() 
