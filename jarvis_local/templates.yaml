@@ -1,0 +1,16 @@
+welcome: Welcome to Jarvi's file browser. Tell me what do you want to open?
+
+open: This is the open folder intent
+
+create: This is the create folder intent
+
+rename: This is the rename folder intent
+
+delete: This is the delete folder intent
+
+upload: This is upload folder intent
+
+goback: This is the go back folder intent
+
+
+
