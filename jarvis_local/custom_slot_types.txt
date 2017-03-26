@@ -1,5 +1,3 @@
-FOLDERNAMES
-
 desktop
 images
 docs
@@ -14,5 +12,11 @@ first
 second
 third
 fourth
-nth
-twentyfirst
+fifth
+sixth
+seventh
+eigth
+ninth
+tenth
+eleventh
+twelfth

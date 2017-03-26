@@ -10,19 +10,38 @@
       ]
     },
     {
+      "intent": "CreateFolder",
+      "slots": [
+        {
+          "name": "FolderName",
+          "type": "FOLDERNAMES"
+        }
+      ]
+    },
+    {
       "intent": "GoBack"
     },
     {
-      "intent": "CreateFolder"
+      "intent": "RenameFolder",
+      "slots": [
+        {
+          "name": "OFolderName",
+          "type": "FOLDERNAMES"
+        },
+        {
+          "name": "NFolderName",
+          "type": "FOLDERNAMES"
+        }
+      ]
     },
     {
-      "intent": "DeleteFolder"
-    },
-    {
-      "intent": "RenameFolder"
-    },
-    {
-      "intent": "UploadDrive"
+      "intent": "UploadDrive",
+      "slots": [
+        {
+          "name": "FolderName",
+          "type": "FOLDERNAMES"
+        }
+      ]
     }
   ]
 }

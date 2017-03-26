@@ -1,22 +1,24 @@
-OpenFolder open the folder
-OpenFolder open folder
-OpenFolder open this folder
-OpenFolder open folder {FolderName}
+OpenFolder open the folder {FolderName} 
+OpenFolder open this folder {FolderName}
+OpenFolder open this {FolderName} folder 
 OpenFolder open {FolderName} folder
+OpenFolder open folder {FolderName}
 OpenFolder open folder {FolderName} {FolderName}
 OpenFolder open {FolderName} {FolderName} folder
+
 GoBack go back
-GoBack open previous folder
+GoBack previous folder
 GoBack go one step back
-CreateFolder create folder with name
-CreateFolder create folder
-CreateFolder create a new folder with name
-DeleteFolder delete folder with name
-DeleteFolder delete folder
-DeleteFolder delete this folder
-RenameFolder rename folder
-RenameFolder rename this folder to
-RenameFolder rename old foldername to new foldername
-UploadDrive upload file on google drive
-UploadDrive upload this file  on google drive
-UploadDrive upload google drive
+
+CreateFolder create {FolderName} folder
+CreateFolder create folder {FolderName}
+CreateFolder create folder {FolderName} {FolderName}
+CreateFolder create {FolderName} {FolderName} folder
+
+RenameFolder rename folder {OFolderName} to {NFolderName}
+RenameFolder rename {OFolderName} to {NFolderName}
+RenameFolder rename this folder {OFolderName} to {NFolderName}
+
+UploadDrive {FolderName} on google drive
+UploadDrive upload this {FolderName} file  on google drive
+UploadDrive upload {FolderName} 
