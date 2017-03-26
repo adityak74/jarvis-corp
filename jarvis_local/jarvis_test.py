@@ -35,7 +35,7 @@ def file_browser():
 @ask.intent("UploadDrive")
 def upload_drive():
     msg = render_template('upload')
-    return statement(msg)
+    return question(msg)
     # global current_path
     # gauth = GoogleAuth()
     # gauth.LoadCredentialsFile("credentials.txt")
@@ -60,7 +60,7 @@ def upload_drive():
 @ask.intent("OpenFolder")
 def open_folder():
     msg = render_template('open')
-    return statement(msg)
+    return question(msg)
     # global current_path
     # if isdir(join(current_path,recv_chat)):
     #     current_path =  join(current_path, recv_chat)
@@ -78,7 +78,7 @@ def open_folder():
 @ask.intent("GoBack")
 def go_back():
     msg = render_template('goback') 
-    return statement(msg)   
+    return question(msg)   
     # global current_path
     # if not current_path.rindex('/'):
     #     current_path = '/'
@@ -90,7 +90,7 @@ def go_back():
 @ask.intent("CreateFolder")
 def create_folder():
     msg = render_template('create')
-    return statement(msg)
+    return question(msg)
     # global current_path
     # if not isdir(join(current_path,recv_chat)):
     #     os.system('mkdir '+join(current_path,recv_chat))
@@ -103,7 +103,7 @@ def create_folder():
 @ask.intent("DeleteFolder")    
 def delete_folder():
     msg = render_template('delete')
-    return statement(msg)
+    return question(msg)
     # global current_path
     # if isdir(join(current_path,recv_chat)):
     #     os.system('rm -rf '+join(current_path,recv_chat))
@@ -114,7 +114,7 @@ def delete_folder():
 @ask.intent("RenameFolder")
 def rename_folder():
     msg = render_template('rename')
-    return statement(msg)
+    return question(msg)
     # global current_path
     # names =  recv_chat.split(' ')
     # old_name = join(current_path,names[0])
@@ -134,7 +134,7 @@ def rename_folder():
 #         msg = render_template('win')
 #     else:
 #         msg = render_template('lose')
-#     return statement(msg)
+#     return question(msg)
 
 if __name__ == '__main__':
     app.run(debug=True)
