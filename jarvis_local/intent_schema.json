@@ -1,0 +1,28 @@
+{
+  "intents": [
+    {
+      "intent": "OpenFolder",
+      "slots": [
+        {
+          "name": "FolderName",
+          "type": "FOLDERNAMES"
+        }
+      ]
+    },
+    {
+      "intent": "GoBack"
+    },
+    {
+      "intent": "CreateFolder"
+    },
+    {
+      "intent": "DeleteFolder"
+    },
+    {
+      "intent": "RenameFolder"
+    },
+    {
+      "intent": "UploadDrive"
+    }
+  ]
+}

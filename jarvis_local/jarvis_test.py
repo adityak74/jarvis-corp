@@ -29,7 +29,9 @@ logging.getLogger("flask_ask").setLevel(logging.DEBUG)
 
 @ask.launch
 def file_browser():
-    welcome_msg = render_template('welcome')
+    # welcome_msg = render_template('welcome')
+    welcome_msg = "Welcome Aditya, how are you ? "
+    print "---------------------------",welcome_msg,"---------------------------"
     return question(welcome_msg)
 
 @ask.intent("UploadDrive")
@@ -57,9 +59,11 @@ def upload_drive():
     # file.Upload()
 
 
-@ask.intent("OpenFolder")
-def open_folder():
-    msg = render_template('open')
+@ask.intent("OpenFolder", convert={'FolderName' : str})
+def open_folder(FolderName):
+    # msg = render_template('open')
+    # print intent['slots']['foldername']['value']
+    msg = "Opening folder " + str(FolderName)
     return question(msg)
     # global current_path
     # if isdir(join(current_path,recv_chat)):
