@@ -53,21 +53,53 @@ def upload_drive(FolderName):
 
     drive = GoogleDrive(gauth)
     file = drive.CreateFile()
-    file.SetContentFile(join(current_path,str(FolderName)))
+    # The followinf 3 cases can occur it has to be a file only. You can't uploa folders in google drive. So it can happen that starting letter is caps
+     # or all letters are in caps or all are smallcase
+    if isfile(join(current_path,str(FolderName.title()))):
+        file.SetContentFile(join(current_path,str(FolderName).title()))
+    elif isfile(join(current_path,str(FolderName.upper()))):
+        file.SetContentFile(join(current_path,str(FolderName).upper()))
+    elif isfile(join(current_path,str(FolderName.lower()))):
+        file.SetContentFile(join(current_path,str(FolderName).lower()))
+
     file.Upload()
+    msg = "Your file is uploaded on your drive"
     return question(msg)
     
 
 @ask.intent("OpenFolder", convert={'FolderName' : str})
 def open_folder(FolderName):
     global current_path
-    if isdir(join(current_path,str(FolderName))):
-        current_path =  join(current_path, str(FolderName))
-    elif isfile(join(current_path,str(FolderName))):
+    # The followinf 6 cases can occur it can be folder or a file that user wants to open with starting letter as caps or all letters in caps or all smallcase
+
+    if isdir(join(current_path,str(FolderName.title()))):
+        current_path =  join(current_path, str(FolderName.title()))
+    elif isdir(join(current_path,str(FolderName.upper()))):
+        current_path =  join(current_path, str(FolderName.upper()))
+    elif isdir(join(current_path,str(FolderName.lower()))):
+        current_path =  join(current_path, str(FolderName.lower()))
+
+    elif isfile(join(current_path,str(FolderName.title()))):
         if platform.system() == "Linux":
-            os.system('xdg-open ' + join(current_path,str(FolderName)))
+            os.system('xdg-open ' + join(current_path,str(FolderName.title())))
         elif platform.system() == "Darwin":
-            os.system('open ' + join(current_path,str(FolderName)))
+            os.system('open ' + join(current_path,str(FolderName.title())))
+        elif platform.system() == "Windows":
+            pass
+            #add folder open code for current_path for Windows
+    elif isfile(join(current_path,str(FolderName.upper()))):
+        if platform.system() == "Linux":
+            os.system('xdg-open ' + join(current_path,str(FolderName.upper())))
+        elif platform.system() == "Darwin":
+            os.system('open ' + join(current_path,str(FolderName.upper())))
+        elif platform.system() == "Windows":
+            pass
+            #add folder open code for current_path for Windows
+    elif isfile(join(current_path,str(FolderName.lower()))):
+        if platform.system() == "Linux":
+            os.system('xdg-open ' + join(current_path,str(FolderName.lower())))
+        elif platform.system() == "Darwin":
+            os.system('open ' + join(current_path,str(FolderName.lower())))
         elif platform.system() == "Windows":
             pass
             #add folder open code for current_path for Windows
@@ -76,7 +108,7 @@ def open_folder(FolderName):
         return question(msg)
         
     print "The current path ", current_path
-    msg  = "The folder" +str(FolderName)+ "is opened for you"
+    msg  = "The folder " +str(FolderName)+ "is opened for you"
     return question(msg)
     
 
@@ -95,11 +127,11 @@ def go_back():
 @ask.intent("CreateFolder" , convert={'FolderName' : str})
 def create_folder(FolderName):
     global current_path
-    if not isdir(join(current_path,recv_chat)):
-        os.system('mkdir '+join(current_path,recv_chat))
+    if not isdir(join(current_path,str(FolderName))):
+        os.system('mkdir '+join(current_path,str(FolderName)))
         current_path  =  current_path
     else:
-        msg  = "I am sorry" + + "there is folder already by that name. Please choose a different name"
+        msg  = "I am sorry there is folder already by that name. Please choose a different name"
         return question(msg)
     print "The current path ", current_path
     msg  = "I have created a folder by the name"
@@ -117,17 +149,29 @@ def create_folder(FolderName):
     #     c.send("Hey "+user_name+ " darling there is no folder by that name please")
     # return
 
-@ask.intent("RenameFolder")
-def rename_folder():
+@ask.intent("RenameFolder" , convert={'ofoldername' : str, 'nfoldername':str} )
+def rename_folder(ofoldername, nfoldername):
+    global current_path
+    # The following 6 cases can occur for the older folder. It can be folder or a file with starting letter as caps or all letters in caps or all smallcase
+    if isfile(join(current_path,str(ofoldername.title()))):
+        old_name = join(current_path,str(ofoldername.title()))
+    elif isfile(join(current_path,str(ofoldername.upper()))):
+        old_name = join(current_path,str(ofoldername.upper()))
+    elif isfile(join(current_path,str(ofoldername.lower()))):
+        old_name = join(current_path,str(ofoldername.lower()))
+
+    elif isdir(join(current_path,str(ofoldername.title()))):
+        old_name = join(current_path,str(ofoldername.title()))
+    elif isdir(join(current_path,str(ofoldername.upper()))):
+        old_name = join(current_path,str(ofoldername.upper()))
+    elif isdir(join(current_path,str(ofoldername.lower()))):
+        old_name = join(current_path,str(ofoldername.lower()))
     
-    return question(msg)
-    # global current_path
-    # names =  recv_chat.split(' ')
-    # old_name = join(current_path,names[0])
     # new_name =  join(current_path,names[1])
-    # print old_name,new_name 
-    # os.system('mv '+old_name+' '+new_name)
-    # return
+    print "Oldfoldername:", old_name, "newfoldername:", nfoldername 
+    os.system('mv '+old_name+' '+new_name)
+    msg = "I have renamed your file." 
+    return question(msg)
 
 
 

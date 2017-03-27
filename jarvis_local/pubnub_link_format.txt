@@ -1,0 +1,19 @@
+Subscribe link change last zero to timestamp
+
+http://pubsub.pubnub.com
+/subscribe
+/sub-c-56f8fe2a-0dcd-11e7-83b6-0619f8945a4f
+/awesomeChannel
+/0
+/0
+
+Publish link, change "hello!" to any message.
+
+http://pubsub.pubnub.com
+/publish
+/pub-c-b432bbef-d96b-4a40-91d4-7ae1c6d96ee6
+/sub-c-56f8fe2a-0dcd-11e7-83b6-0619f8945a4f
+/0
+/awesomeChannel
+/0
+/"hello!"

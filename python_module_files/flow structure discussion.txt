@@ -1,0 +1,37 @@
+chennael main 'get_user_details' message publish kar phir subscribe main utha client main , then 
+
+client main getpass.user function chala , then response channel main publish karde usko. phir alexa ko response channel se read karega
+
+when you send respnse to any requet type make json 
+keyword for request 
+{
+
+
+first get the passcode
+then get the channel name from server/digital ocean 
+identify the intent in alexa only that means basically no major change in jarvis_test.py except teh new functionalities 
+
+
+now suppose 
+case 1: Oen 
+
+{
+	"intent": open_folder
+	"value" : foldernmae
+}
+respective chanenel 
+
+cleint {jarivis_recieve_end.py}
+ if {intent is open
+}
+go the open functions
+
+waha get cuurent_path detials and append the value to the current path 
+then you show this new updates path in the clent browser
+response will be sent by publuishing to pubnub to jarvis_test_sending.py like this :
+request_type : 'open_folder' , response : 'Hey it is open' }
+ 
+
+ MAIN THING TO BE KEPT IN MIND
+
+ client side me you need to have the jarivis test logic
