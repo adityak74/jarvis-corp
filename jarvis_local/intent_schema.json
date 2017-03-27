@@ -19,7 +19,13 @@
       ]
     },
     {
-      "intent": "GoBack"
+      "intent": "GoBack",
+      "slots": [
+        {
+          "name": "FolderName",
+          "type": "FOLDERNAMES"
+        }
+      ]
     },
     {
       "intent": "RenameFolder",
@@ -31,6 +37,15 @@
         {
           "name": "NFolderName",
           "type": "FOLDERNAMES"
+        }
+      ]
+    },
+    {
+      "intent": "PassCodeIntent",
+      "slots": [
+        {
+          "name": "Passcode",
+          "type": "AMAZON.NUMBER"
         }
       ]
     },

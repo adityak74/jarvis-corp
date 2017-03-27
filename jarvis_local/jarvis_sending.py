@@ -17,15 +17,12 @@ def file_browser():
     print "---------------------------",welcome_msg,"---------------------------"
     return question(welcome_msg)
 
-@ask.intent("Passcode", convert ={'a':int})
-def passcode(a):
-    print type(a)
-    print a
+@ask.intent("PassCodeIntent", convert = {'Passcode':int})
+def passcode(Passcode):
+    # print type(Passcode)
     global PASSCODE
-    print PASSCODE
-    print type(PASSCODE)
-    
-    PASSCODE  += a
+    print Passcode
+    PASSCODE = Passcode
     # Call digital ocean and get the respective pascodes cannels. If not found return response incorrect passcode
     # Set the passcode and channel names in session, with pascode as key and channels as values or any other logic but that needs to be there in the session
     # We also have to include one more flow if the user forgets his passcode.
@@ -50,7 +47,9 @@ def open_folder(FolderName):
             "intent" : "open",
             "value"  : str(FolderName)
     }
-    jarvis_pubnub.pubnub.publish().channel('awesomeChannel').message(data).async(my_publish_callback)
+    jarvis_pubnub.pubnub.publish().channel('awesomeChannel').message(data).async(jarvis_pubnub.my_publish_callback)
+    msg = "Opened folder " + str(FolderName)
+    return question(msg)
     
 
 
@@ -63,7 +62,9 @@ def go_back():
     data = {
             "intent" : "goback",
             "value"  : None
-    }    
+    } 
+    msg = "Go back done."
+    return question(msg)   
 
 
 @ask.intent("CreateFolder" , convert={'FolderName' : str})
