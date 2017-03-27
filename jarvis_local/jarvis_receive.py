@@ -3,7 +3,7 @@ from pubnub.enums import PNStatusCategory
 from pubnub.pnconfiguration import PNConfiguration
 from pubnub.pubnub import PubNub
 
- 
+###################################################################################################################################### 
 pnconfig = PNConfiguration()
  
 pnconfig.subscribe_key = 'sub-c-56f8fe2a-0dcd-11e7-83b6-0619f8945a4f'
@@ -12,7 +12,6 @@ pnconfig.publish_key = 'pub-c-b432bbef-d96b-4a40-91d4-7ae1c6d96ee6'
 pubnub = PubNub(pnconfig)
 
 
- 
 def my_publish_callback(envelope, status):
     # Check whether request successfully completed or not
     if not status.is_error():
@@ -36,7 +35,7 @@ class MySubscribeCallback(SubscribeCallback):
             # Connect event. You can do stuff like publish, and know you'll get it.
             # Or just use the connected event to confirm you are subscribed for
             # UI / internal notifications, etc
-            # pubnub.publish().channel("awesomeChannel").message("hello!!").async(my_publish_callback)
+            # pubnub.publish().channel("redChannel").message("hello!!").async(my_publish_callback)
             pass
         elif status.category == PNStatusCategory.PNReconnectedCategory:
             pass
@@ -48,13 +47,15 @@ class MySubscribeCallback(SubscribeCallback):
             # encrypt messages and on live data feed it received plain text.
  
     def message(self, pubnub, message):
-        global send_command
-        send_command = message.message
-        print send_command
+        print "This is what I received from the server side", message.message
+        msg ="Custome message based on intent under construction"
+        pubnub.publish().channel('blueChannel').message(msg).async(my_publish_callback)
         pass  # Handle new message stored in message.message
 
   
 pubnub.add_listener(MySubscribeCallback())
-pubnub.subscribe().channels('awesomeChannel').execute()
+pubnub.subscribe().channels('redChannel').execute()
 
 
+
+##################################################################################################################################

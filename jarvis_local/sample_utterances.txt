@@ -1,24 +1,21 @@
-OpenFolder open the folder {FolderName} 
+OpenFolder open the folder {FolderName}
 OpenFolder open this folder {FolderName}
-OpenFolder open this {FolderName} folder 
+OpenFolder open this {FolderName} folder
 OpenFolder open {FolderName} folder
 OpenFolder open folder {FolderName}
 OpenFolder open folder {FolderName} {FolderName}
 OpenFolder open {FolderName} {FolderName} folder
-
-GoBack go back
-GoBack previous folder
-GoBack go one step back
-
 CreateFolder create {FolderName} folder
 CreateFolder create folder {FolderName}
 CreateFolder create folder {FolderName} {FolderName}
 CreateFolder create {FolderName} {FolderName} folder
-
+GoBack go back
+GoBack previous folder
+GoBack go one step back
 RenameFolder rename folder {OFolderName} to {NFolderName}
 RenameFolder rename {OFolderName} to {NFolderName}
 RenameFolder rename this folder {OFolderName} to {NFolderName}
-
+PassCodeIntent Passcode is {Passcode}
 UploadDrive {FolderName} on google drive
 UploadDrive upload this {FolderName} file  on google drive
-UploadDrive upload {FolderName} 
+UploadDrive upload {FolderName}
