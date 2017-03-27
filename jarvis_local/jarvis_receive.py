@@ -48,7 +48,7 @@ class MySubscribeCallback(SubscribeCallback):
  
     def message(self, pubnub, message):
         print "This is what I received from the server side", message.message
-        msg ="Custome message based on intent under construction"
+        msg = " Custom message based on intent under construction"
         pubnub.publish().channel('blueChannel').message(msg).async(my_publish_callback)
         pass  # Handle new message stored in message.message
 
