@@ -7,7 +7,7 @@ app = Flask(__name__)
 
 mysql = MySQL()
 app.config['MYSQL_DATABASE_USER'] = 'root'
-app.config['MYSQL_DATABASE_PASSWORD'] = 'baburao@123'
+app.config['MYSQL_DATABASE_PASSWORD'] = 'XXXXXXX'
 app.config['MYSQL_DATABASE_DB'] = 'jarvis_dms'
 app.config['MYSQL_DATABASE_HOST'] = 'localhost'
 mysql.init_app(app)
@@ -28,7 +28,7 @@ def generate_passcode():
 	print mac[2:-1] # this will print the hex format of the mac address removing the 0x and L characters in string format
 	return int(passcode[0:8]) # this is int 
 
-class CreateUser(Resource):
+class CreateDevice(Resource):
 	def post(self):
 		try:
 			# Parse the arguments
@@ -38,10 +38,18 @@ class CreateUser(Resource):
 			# args = parser.parse_args()
 
 			# _userEmail = args['email']
-			# _userPassword = args['password']
-
-			requestChannel = 'req1012'
-			responseChannel = 'resp1012'
+			# _userPassword = args['password']	
+			conn = mysql.connect()
+			cursor = conn.cursor()
+			cursor.execute("SELECT * FROM `devices` order by id DESC LIMIT 1")
+			data = cursor.fetchone()
+			if data is None:
+				startID = 0
+			else:
+				startID  = data[0]
+			startID += 1001
+			requestChannel = 'req' + str(startID)
+			responseChannel = 'resp' + str(startID)
 			passcode = generate_passcode()
 			print passcode
 			print type(passcode)
@@ -56,8 +64,8 @@ class CreateUser(Resource):
 
 			return {
 						'deviceID': cursor.lastrowid, 
-						'requestChannel': 'req1011', 
-						'responseChannel' : 'resp1011', 
+						'requestChannel': requestChannel, 
+						'responseChannel' : responseChannel, 
 						'passcode' : passcode, 
 						'created_at' : created_at
 					}
@@ -68,19 +76,7 @@ class CreateUser(Resource):
 	def get(self):
 		return {'status' : 'get'}
 
-api.add_resource(CreateUser, '/CreateUser')
-
-@app.route("/auth")
-def Authenticate():
-    # username = request.args.get('UserName')
-    # password = request.args.get('Password')
-    cursor = mysql.connect().cursor()
-    cursor.execute("SELECT * from devices")
-    data = cursor.fetchone()
-    if data is None:
-    	return "Username or Password is wrong"
-    else:
-    	return "Logged in successfully"
+api.add_resource(CreateDevice, '/create_device')
 
 if __name__ == "__main__":
 	app.run(debug=True, port=5001)
