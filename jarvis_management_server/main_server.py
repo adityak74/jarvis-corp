@@ -7,7 +7,7 @@ app = Flask(__name__)
 
 mysql = MySQL()
 app.config['MYSQL_DATABASE_USER'] = 'root'
-app.config['MYSQL_DATABASE_PASSWORD'] = 'XXXXXXX'
+app.config['MYSQL_DATABASE_PASSWORD'] = 'XXX'
 app.config['MYSQL_DATABASE_DB'] = 'jarvis_dms'
 app.config['MYSQL_DATABASE_HOST'] = 'localhost'
 mysql.init_app(app)
@@ -27,6 +27,37 @@ def generate_passcode():
 	mac =  str(hex(get_mac()))
 	print mac[2:-1] # this will print the hex format of the mac address removing the 0x and L characters in string format
 	return int(passcode[0:8]) # this is int 
+
+class GetDevice(Resource):
+	def post(self):
+		try:
+			parser = reqparse.RequestParser(bundle_errors=True)
+			parser.add_argument('passcode', type=str, help='Send passcode to get device', required=True)
+			args = parser.parse_args()
+
+			_passcode = args['passcode']	
+
+			if _passcode != '':
+				conn = mysql.connect()
+				cursor = conn.cursor()
+				cursor.execute("SELECT * FROM `devices` WHERE passcode = "+ _passcode)
+				data = cursor.fetchone()
+				if data is None:
+					return { "status_message":"device_not_found","message":"Incorrect or no such passcode found"}
+				else:
+					return { "status_message":"device_found", "message" : 
+							{
+							'deviceID': data[0], 
+							'requestChannel': data[1], 
+							'responseChannel' : data[2],
+							'created_at' : data[4]
+							}
+						}
+			else:
+				return { "status_message":"device_passcode_incomplete","message":"Passcode Incomplete"}
+
+		except Exception as e:
+			raise e
 
 class CreateDevice(Resource):
 	def post(self):
@@ -77,6 +108,7 @@ class CreateDevice(Resource):
 		return {'status' : 'get'}
 
 api.add_resource(CreateDevice, '/create_device')
+api.add_resource(GetDevice, '/get_device')
 
 if __name__ == "__main__":
 	app.run(debug=True, port=5001)
