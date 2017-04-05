@@ -14,6 +14,7 @@ pnconfig.publish_key = 'pub-c-b432bbef-d96b-4a40-91d4-7ae1c6d96ee6'
  
 pubnub = PubNub(pnconfig)
 
+client_message =  ''
 
 def my_publish_callback(envelope, status):
     # Check whether request successfully completed or not
@@ -50,8 +51,9 @@ class MySubscribeCallback(SubscribeCallback):
             # encrypt messages and on live data feed it received plain text.
  
     def message(self, pubnub, message):
-		print "This is what I received from client side", message.message
-		return question(message.message)        
+        global client_message
+		# print "This is what I received from client side", message.message
+        client_message = message.message        
 		# pass  # Handle new message stored in message.message
 
   
@@ -76,7 +78,6 @@ def file_browser():
 
 @ask.intent("PassCodeIntent", convert = {'Passcode':int})
 def passcode(Passcode):
-    # print type(Passcode)
     global PASSCODE
     print Passcode
     PASSCODE = Passcode
@@ -88,6 +89,7 @@ def passcode(Passcode):
 
 @ask.intent("UploadDrive", convert={'FolderName' : str})
 def upload_drive(FolderName):
+    global client_message
     # Check if passcode is set in the session or not. Else return with proper messsage.  This Logic needs more work
     if not PASSCODE:
         msg = "You haven't verified your password. Please say you passcode. Thank You"
@@ -97,10 +99,15 @@ def upload_drive(FolderName):
             "value"  : str(FolderName)
     }
     pubnub.publish().channel('redChannel').message(data).async(my_publish_callback)
+    while not client_message:
+        pass
+    print client_message
+    return question(client_message)
 
 
 @ask.intent("OpenFolder", convert={'FolderName' : str})
 def open_folder(FolderName):
+    global client_message
     # Check if passcode is set in the session or not. Else return with proper messsage.  This Logic needs more work
     if not PASSCODE:
         msg = "You haven't verified your password. Please say you passcode. Thank You"
@@ -110,11 +117,15 @@ def open_folder(FolderName):
             "value"  : str(FolderName)
     }
     pubnub.publish().channel('redChannel').message(data).async(my_publish_callback)
-    
+    while not client_message:
+        pass
+    print client_message
+    return question(client_message)
 
 
 @ask.intent("GoBack")
 def go_back():
+    global client_message
     # Check if passcode is set in the session or not. Else return with proper messsage.  This Logic needs more work
     if not PASSCODE:
         msg = "You haven't verified your password. Please say you passcode. Thank You"
@@ -124,11 +135,16 @@ def go_back():
             "value"  : None
     }
     pubnub.publish().channel('redChannel').message(data).async(my_publish_callback) 
+    while not client_message:
+        pass
+    print client_message
+    return question(client_message)
 
 
 
 @ask.intent("CreateFolder" , convert={'FolderName' : str})
 def create_folder(FolderName):
+    global client_message
     # Check if passcode is set in the session or not. Else return with proper messsage.  This Logic needs more work
     if not PASSCODE:
         msg = "You haven't verified your password. Please say you passcode. Thank You"
@@ -138,11 +154,16 @@ def create_folder(FolderName):
             "value"  : str(FolderName)
     }
     pubnub.publish().channel('redChannel').message(data).async(my_publish_callback)
+    while not client_message:
+        pass
+    print client_message
+    return question(client_message)
 
 # @ask.intent("DeleteFolder")    
 
 @ask.intent("RenameFolder" , convert={'ofoldername' : str, 'nfoldername':str} )
 def rename_folder(ofoldername, nfoldername):
+    global client_message
     # Check if passcode is set in the session or not. Else return with proper messsage.  This Logic needs more work
     if not PASSCODE:
         msg = "You haven't verified your password. Please say you passcode. Thank You"
@@ -152,6 +173,10 @@ def rename_folder(ofoldername, nfoldername):
             "value"  : {'oldfoldername':str(oldfoldername),'newfoldername':str(nfoldername)}
     }
     pubnub.publish().channel('redChannel').message(data).async(my_publish_callback)
+    while not client_message:
+        pass
+    print client_message
+    return question(client_message)
 
 if __name__ == '__main__':
     app.run(debug=True)
