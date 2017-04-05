@@ -73,13 +73,14 @@ class MySubscribeCallback(SubscribeCallback):
 		elif message.message['intent'].encode('ascii','ignore') == 'drive':
 			server_message = upload_drive(message.message['value'].encode('ascii','ignore'))
 		elif message.message['intent'].encode('ascii','ignore') == 'goback':
-			server_message = goback(message.message['value'].encode('ascii','ignore'))
+			server_message = go_back()
 		elif message.message['intent'].encode('ascii','ignore') == 'create':
 			server_message = create_folder(message.message['value'].encode('ascii','ignore'))
 		elif message.message['intent'].encode('ascii','ignore') == 'rename':
 			server_message = rename_folder(message.message['value'].encode('ascii','ignore'))
 
 		# For the time being this channel names are hard coded they need to be made dyamic based on server management logic
+		print "This is before publishing to server : ", server_message
 		pubnub.publish().channel('blueChannel').message(server_message).async(my_publish_callback)
 		pass  # Handle new message stored in message.message
 
@@ -149,7 +150,7 @@ def open_folder(FolderName):
 		elif platform.system() == "Windows":
 			pass
 			#add folder open code for current_path for Windows
-	elif isfile(join(current_path,str(FolderName.lower()))):`
+	elif isfile(join(current_path,str(FolderName.lower()))):
 		if platform.system() == "Linux":
 			os.system('xdg-open ' + join(current_path,str(FolderName.lower())))
 		elif platform.system() == "Darwin":
@@ -159,10 +160,11 @@ def open_folder(FolderName):
 			#add folder open code for current_path for Windows
 	else: 
 		msg  = "I am sorry, there is no such folder by that name"
-		return question(msg)
+		return msg
 		
 	print "The current path ", current_path
-	msg  = "The folder " +str(FolderName)+ "is opened for you"
+	# msg  = "The folder " +str(FolderName)+ " is opened for you"
+	msg = str(current_path)
 	return msg
 ##################################################################################################################################
 def go_back():
@@ -172,7 +174,8 @@ def go_back():
 	else:   
 		current_path =  current_path[:current_path.rindex('/')]
 	print "The current path ", current_path
-	msg = "This is the previous folder"
+	msg = str(current_path)
+	# msg  = "I have created a folder by the name"
 	return msg
 ##################################################################################################################################
 
@@ -183,9 +186,10 @@ def create_folder(FolderName):
 		current_path  =  current_path
 	else:
 		msg  = "I am sorry there is folder already by that name. Please choose a different name"
-		return question(msg)
+		return msg
 	print "The current path ", current_path
-	msg  = "I have created a folder by the name"
+	msg = str(current_path)
+	# msg  = "I have created a folder by the name"
 	return msg
 ##################################################################################################################################
 # def delete_folder():

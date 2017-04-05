@@ -52,8 +52,10 @@ class MySubscribeCallback(SubscribeCallback):
  
     def message(self, pubnub, message):
         global client_message
+        client_message = ''
 		# print "This is what I received from client side", message.message
-        client_message = message.message        
+        client_message = message.message  
+        print "this is what I received from client: ",client_message      
 		# pass  # Handle new message stored in message.message
 
   
@@ -101,7 +103,6 @@ def upload_drive(FolderName):
     pubnub.publish().channel('redChannel').message(data).async(my_publish_callback)
     while not client_message:
         pass
-    print client_message
     return question(client_message)
 
 
@@ -119,7 +120,6 @@ def open_folder(FolderName):
     pubnub.publish().channel('redChannel').message(data).async(my_publish_callback)
     while not client_message:
         pass
-    print client_message
     return question(client_message)
 
 
@@ -137,7 +137,6 @@ def go_back():
     pubnub.publish().channel('redChannel').message(data).async(my_publish_callback) 
     while not client_message:
         pass
-    print client_message
     return question(client_message)
 
 
@@ -156,7 +155,6 @@ def create_folder(FolderName):
     pubnub.publish().channel('redChannel').message(data).async(my_publish_callback)
     while not client_message:
         pass
-    print client_message
     return question(client_message)
 
 # @ask.intent("DeleteFolder")    
@@ -175,7 +173,6 @@ def rename_folder(ofoldername, nfoldername):
     pubnub.publish().channel('redChannel').message(data).async(my_publish_callback)
     while not client_message:
         pass
-    print client_message
     return question(client_message)
 
 if __name__ == '__main__':
