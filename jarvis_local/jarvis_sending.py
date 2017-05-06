@@ -102,8 +102,10 @@ def upload_drive(FolderName):
     }
     pubnub.publish().channel('redChannel').message(data).async(my_publish_callback)
     while not client_message:
-        pass
-    return question(client_message)
+        continue
+    ret_mesg = client_message
+    client_message = ""
+    return question(ret_mesg)
 
 
 @ask.intent("OpenFolder", convert={'FolderName' : str})
@@ -119,8 +121,10 @@ def open_folder(FolderName):
     }
     pubnub.publish().channel('redChannel').message(data).async(my_publish_callback)
     while not client_message:
-        pass
-    return question(client_message)
+        continue
+    ret_mesg = client_message
+    client_message = ""
+    return question(ret_mesg)
 
 
 @ask.intent("GoBack")
@@ -136,8 +140,10 @@ def go_back():
     }
     pubnub.publish().channel('redChannel').message(data).async(my_publish_callback) 
     while not client_message:
-        pass
-    return question(client_message)
+        continue
+    ret_mesg = client_message
+    client_message = ""
+    return question(ret_mesg)
 
 
 
@@ -154,8 +160,10 @@ def create_folder(FolderName):
     }
     pubnub.publish().channel('redChannel').message(data).async(my_publish_callback)
     while not client_message:
-        pass
-    return question(client_message)
+        continue
+    ret_mesg = client_message
+    client_message = ""
+    return question(ret_mesg)
 
 # @ask.intent("DeleteFolder")    
 
@@ -172,8 +180,10 @@ def rename_folder(ofoldername, nfoldername):
     }
     pubnub.publish().channel('redChannel').message(data).async(my_publish_callback)
     while not client_message:
-        pass
-    return question(client_message)
+        continue
+    ret_mesg = client_message
+    client_message = ""
+    return question(ret_mesg)
 
 if __name__ == '__main__':
     app.run(debug=True)
