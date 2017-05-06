@@ -81,6 +81,8 @@ def file_browser():
 @ask.intent("PassCodeIntent", convert = {'Passcode':int})
 def passcode(Passcode):
     global PASSCODE
+    if passcode is '' or not isinstance(passcode,int)
+        return question("Incorrect passcode")
     print Passcode
     PASSCODE = Passcode
     # Call digital ocean and get the respective pascodes cannels. If not found return response incorrect passcode
